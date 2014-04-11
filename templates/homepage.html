@@ -3,6 +3,11 @@
 {% if uname %}
 <h1>Hello {{ uname }}!</h1>
 {% else %}
-<h1>Not welcome here -_-</h1>
+<h1>Not welcome here - please log in!</h1>
 {% endif %}
+<form name="form1" method="post" enctype="multipart/form-data" action="/upload">
+  <input type="file" name="prog"></br>
+  <input type="submit">
+</form>
 <a href="/logout">Logout</a>
+
