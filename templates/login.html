@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html>
-	<head>
-	</head>
-
-	<body>
+{% extends "base.html" %}
+{% block content %}
 		<h1> Login form </h1>
 		<form name="input" action="/login" method="post">
   			USN : <input type="text" name="usn"></input><br/>
 			PASSWORD : <input type="text" name="password"></input><br/>
   			<input type="submit" value="Login"></input>
 		</form>
-	</body>
-</html>
+{% endblock %}

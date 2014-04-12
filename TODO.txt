@@ -1,0 +1,6 @@
+TODO: 
+	1. Database schema
+	2. UI - bootstrap
+	3. Integrate UI into base.html templates
+		-rework on the webpage inter links.  
+	4. Integrate Getone + create file structure --Arjun

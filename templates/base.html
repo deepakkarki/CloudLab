@@ -1,0 +1,23 @@
+<html>
+	<head>
+		{% if title %}
+		<title>{{title}} - CloudLab</title>
+		{% else %}
+		<title>CloudLab</title>
+		{% endif %}
+	</head>
+	<body>
+		<div>CloudLab: <a href="/index">Home</a></div>
+		<hr>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+    {% for message in messages %}
+        <li>{{ message }} </li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+	</body>
+</html>

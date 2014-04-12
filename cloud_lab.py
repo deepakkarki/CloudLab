@@ -25,16 +25,8 @@ def connect_db():
 	rv = sqlite3.connect(app.config['DATABASE'])
 	rv.row_factory = sqlite3.Row
 	return rv
-'''
-def init_db():
-	"""Creates the database tables."""
-	with app.app_context():
-		db = get_db()
-		with app.open_resource('schema.sql', mode='r') as f:
-			db.cursor().executescript(f.read())
-		db.commit()
 
-'''
+
 def get_db():
 	"""
 	Opens a new database connection if there is none yet for the
@@ -53,15 +45,17 @@ def close_db(error):
 
 
 @app.route("/")
+@app.route("/index")
 def index():
-	return app.send_static_file('index.html')
+	#return app.send_static_file('index.html')
+	return render_template('index.html')
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
 	if request.method == 'POST':
-		usn = request.form['usn']
-		passw = request.form['password']
+		usn = request.form['usn']##########
+		passw = request.form['password']#########
 
 		if check_user(usn, passw):
 			session['username'] = usn
@@ -73,19 +67,20 @@ def login():
 	if 'username' in session:
 		return redirect(url_for('homepage'))
 		
-	return app.send_static_file('login.html')
+	#return app.send_static_file('login.html')
+	return render_template('login.html')
 
 
 
 def check_user(usn, pwd):
 	db_con = get_db() 
 	cur = db_con.cursor()
-	cur.execute("SELECT password from login where usn=?", [usn])
+	cur.execute("SELECT password from login where usn=?", [usn])######
 	res = cur.fetchone()
 	if not res: 
 		return False
 	else:
-		return pwd == res['password']
+		return pwd == res['password']#######
 	
 
 
@@ -109,7 +104,4 @@ def upload_file():
 
 
 if __name__ == "__main__":
-	#db_con = sqlite3.connect('tmp/cloudlab.db')
-	#db_con.row_factory = sqlite3.Row
-	#g.sqlite_db = db_con
 	app.run()
