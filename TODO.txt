@@ -1,6 +1,7 @@
 TODO: 
-	1. Database schema
+	1. Database schema :DONE
 	2. UI - bootstrap
 	3. Integrate UI into base.html templates
-		-rework on the webpage inter links.  
+		- rework on the webpage inter links. 
+		- add webpages fof 404, not logged in and  not authenticated messages 
 	4. Integrate Getone + create file structure --Arjun

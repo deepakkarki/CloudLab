@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h3> Students Enrolled in the Lab </h3>
+<ul>
+	{% for usn in usns %}
+	<li> {{usn}} </li>
+	{% endfor %}
+</ul>
+<a href="/logout">Logout</a>
+{% endblock %}

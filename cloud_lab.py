@@ -54,44 +54,73 @@ def index():
 @app.route("/login", methods=["GET", "POST"])
 def login():
 	if request.method == 'POST':
-		usn = request.form['usn']##########
-		passw = request.form['password']#########
+		usn = request.form['usn']
+		passw = request.form['password']
+		teach = 'teacher' in request.form
+		print "teacher : " , teach
 
-		if check_user(usn, passw):
-			session['username'] = usn
-			return redirect(url_for('homepage'))
-		
-		else:
+		if check_user(usn, passw, teach):
+			session['userid'] = usn
+			session['teacher'] = 'teacher' in request.form
+			
+		else: #if login failed
 			return redirect(url_for('index'))
 
-	if 'username' in session:
-		return redirect(url_for('homepage'))
+	#if the person is logged in
+	if 'userid' in session:
+		if session.get('teacher',None): #it's a teacher
+			return redirect(url_for('manage'))
+
+		else: #it's a student
+			return redirect(url_for('homepage'))
 		
 	#return app.send_static_file('login.html')
-	return render_template('login.html')
+	return render_template('login.html') #user not logged in
 
 
+@app.route("/manage", methods = ['GET'])
+def manage():
+	if session.get('teacher',None): #it's a teacher
+		db_con = get_db() 
+		cur = db_con.cursor()
 
-def check_user(usn, pwd):
+		cur.execute("SELECT * from teacher_lab where tid=?", [session['userid']])
+		res = cur.fetchone()
+		res = res['lab']
+
+		cur.execute("SELECT usn from student_lab where lab=?", [res])
+		usns = cur.fetchall()
+		usns = map(lambda x : x['usn'], usns)
+
+		return render_template('manage.html', usns=usns)
+
+
+def check_user(id, pwd, is_teacher):
 	db_con = get_db() 
 	cur = db_con.cursor()
-	cur.execute("SELECT password from login where usn=?", [usn])######
+
+	if is_teacher:
+		cur.execute("SELECT password from teacher_login where tid=?", [id])
+	else :
+		cur.execute("SELECT password from student_login where usn=?", [id])
+
 	res = cur.fetchone()
+
 	if not res: 
 		return False
 	else:
-		return pwd == res['password']#######
+		return pwd == res['password']
 	
 
 
 @app.route("/homepage")
 def homepage(): 
-	return render_template('homepage.html', uname=session.get('username', ''))
+	return render_template('homepage.html', uname=session.get('userid', ''))
 
 @app.route("/logout")
 def logout():
 	# remove the username from the session if its there
-	session.pop("username", None)
+	session.pop("userid", None)
 	return redirect(url_for("index"))
 
 
