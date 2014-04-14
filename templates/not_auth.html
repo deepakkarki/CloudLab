@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %} 
+
+	{% if session.get('userid', None) %}
+		<h3>You do not have permissions to view this page</h3><br>
+		<b>go back to <a href="/homepage">HOME</a> </b><br>
+	{% else%}
+		<h3>You are not logged in</b><br>
+		<b>You have to <a href="/login">LOGIN</a> here</b>
+	{%endif%}
+
+{% endblock %}

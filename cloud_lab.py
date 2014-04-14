@@ -48,6 +48,10 @@ def close_db(error):
 @app.route("/index")
 def index():
 	#return app.send_static_file('index.html')
+	if session.get('teacher', None):
+		return redirect(url_for('manage'))
+	if session.get('userid', None):
+		return redirect(url_for('homepage'))
 	return render_template('index.html')
 
 
@@ -94,6 +98,8 @@ def manage():
 
 		return render_template('manage.html', usns=usns)
 
+	return render_template('not_auth.html')
+
 
 def check_user(id, pwd, is_teacher):
 	db_con = get_db() 
@@ -115,12 +121,18 @@ def check_user(id, pwd, is_teacher):
 
 @app.route("/homepage")
 def homepage(): 
+	if not session.get('userid', None):
+		return render_template('not_auth.html')
+
+	if session.get('teacher', None):
+		return redirect(url_for('manage'))
 	return render_template('homepage.html', uname=session.get('userid', ''))
 
 @app.route("/logout")
 def logout():
 	# remove the username from the session if its there
 	session.pop("userid", None)
+	session.pop("teacher", None)
 	return redirect(url_for("index"))
 
 
