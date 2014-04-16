@@ -1,6 +1,13 @@
 {% extends "base.html" %} 
 {% block content %}
-		<h1>Welcome to CloudLab</h1>
-		<br><br>
-		<a href="/login">Login here</a>
+	<h1>Welcome to CloudLab</h1>
+	<br><br>
+
+	<form action="/login" method="post">
+	   	USER ID  <input type="text" name='usn'><br>
+	   	Password <input type="password" name='password'><br>
+	   	Teacher  <input type="checkbox" name="teacher" value="True"><br>
+    	<input type="submit" value="login">
+    </form>
+
 {% endblock %}

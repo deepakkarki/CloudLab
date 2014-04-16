@@ -1,10 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
 <h3> Students Enrolled in the Lab </h3>
+
+<form name="form1" method="post" enctype="multipart/form-data" action="/upload">
+  <input type="file" name="prog"></br>
+  <input type="submit">
+</form>
+
 <ul>
 	{% for usn in usns %}
 	<li> {{usn}} </li>
 	{% endfor %}
 </ul>
+
 <a href="/logout">Logout</a>
+
 {% endblock %}

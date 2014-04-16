@@ -1,0 +1,10 @@
+{% extends "base.html" %} 
+{% block content %}
+	<h1>Welcome to {{subject}}</h1>
+	<br><br>
+	<ul>
+		{% for file in files %}
+			 <li>{{file}}</a></li>
+		{%endfor%}
+	</ul>
+{% endblock %}

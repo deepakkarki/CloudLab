@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<div>CloudLab: <a href="/index">Home</a></div>
-		<hr>
+		<hr><!--
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     <ul>
@@ -17,7 +17,8 @@
     {% endfor %}
     </ul>
     {% endif %}
+  -->
     {% endwith %}
-    {% block content %}{% endblock %}
+    {% block content %}{% endblock %} 
 	</body>
 </html>

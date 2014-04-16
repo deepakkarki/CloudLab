@@ -3,8 +3,11 @@
 		<h1> Login form </h1>
 		<form name="input" action="/login" method="post">
   			USN : <input type="text" name="usn"></input><br/>
-			PASSWORD : <input type="text" name="password"></input><br/>
-			Teacher : <input type="checkbox" name="teacher" value="True">
-  			<input type="submit" value="Login"></input>
+			PASSWORD : <input type="password" name="password"></input><br/>
+			Teacher : <input type="checkbox" name="teacher" value="True"><br>
+  			<input type="submit" value="Login"></input><br>
+  			{% if fail%}
+  				User name or password was incorrect! <br>
+  			{% endif%}
 		</form>
 {% endblock %}

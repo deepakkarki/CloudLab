@@ -5,9 +5,16 @@
 	{% else %}
 		<h1>Not welcome here - please log in!</h1>
 	{% endif %}
-	<form name="form1" method="post" enctype="multipart/form-data" action="/upload">
-	  <input type="file" name="prog"></br>
-	  <input type="submit">
-	</form>
+	
+	{% if subjects %}
+	<ul>
+		{% for subject in subjects %}
+			 <li><a href={{"/labs/" + subject[0] }}>{{subject[0]}}</a></li>
+		{%endfor%}
+	</ul>
+	{% else %}
+		<h1>Not registered for any lab yet!</h1>
+	{% endif %}
+
 	<a href="/logout">Logout</a>
 {% endblock %}

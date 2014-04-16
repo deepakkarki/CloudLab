@@ -68,7 +68,9 @@ def login():
 			session['teacher'] = 'teacher' in request.form
 			
 		else: #if login failed
-			return redirect(url_for('index'))
+			#flash('User name or password is incorrect, please try again')
+			#return redirect(url_for('login'), fail=True)
+			return render_template('login.html', fail=True)
 
 	#if the person is logged in
 	if 'userid' in session:
@@ -85,7 +87,7 @@ def login():
 @app.route("/manage", methods = ['GET'])
 def manage():
 	if session.get('teacher',None): #it's a teacher
-		db_con = get_db() 
+		db_con = get_db()
 		cur = db_con.cursor()
 
 		cur.execute("SELECT * from teacher_lab where tid=?", [session['userid']])
@@ -118,7 +120,6 @@ def check_user(id, pwd, is_teacher):
 		return pwd == res['password']
 	
 
-
 @app.route("/homepage")
 def homepage(): 
 	if not session.get('userid', None):
@@ -126,7 +127,13 @@ def homepage():
 
 	if session.get('teacher', None):
 		return redirect(url_for('manage'))
-	return render_template('homepage.html', uname=session.get('userid', ''))
+
+	db_con = get_db() 
+	cur = db_con.cursor()
+
+	cur.execute("SELECT lab from student_lab where usn=?", [session['userid']])
+	res = cur.fetchall()
+	return render_template('homepage.html', uname=session.get('userid', ''), subjects=res)
 
 @app.route("/logout")
 def logout():
@@ -135,12 +142,29 @@ def logout():
 	session.pop("teacher", None)
 	return redirect(url_for("index"))
 
+@app.route("/labs/<lab_code>")
+def subject(lab_code):
+	#should add one more check to see if the student actually is a part of this lab
+	if not session.get('userid', None):
+		return render_template('not_auth.html')
+
+	import glob
+	files = map( lambda x: x.split('/')[-1], glob.glob("labs/"+lab_code+"/*"))
+	return render_template('subject.html', subject=lab_code, files=files)
+
+
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
 	if request.method == 'POST':
+		db_con = get_db() 
+		cur = db_con.cursor()
+		cur.execute('select lab from teacher_lab where tid=?', [session['userid']])
+		res = cur.fetchone()
+		res = res['lab']
+		print "res : ",res
 		f = request.files['prog']
-		f.save('/home/karki/Desktop/PESIT/software_engineering/CloudLab/uploads/'+secure_filename(f.filename))
+		f.save('labs/'+res+'/'+secure_filename(f.filename))
 		return redirect(url_for("homepage"))
 
 
