@@ -1,10 +1,77 @@
-{% extends "base.html" %} 
-{% block content %}
-	<h1>Welcome to {{subject}}</h1>
-	<br><br>
-	<ul>
-		{% for file in files %}
-			 <li>{{file}}</a></li>
-		{%endfor%}
-	</ul>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    
+    <title></title>
+    
+      <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/static/carousel.css" rel="stylesheet">
+    <script>
+    </script>
+  </head>
+  <body>
+<div class="span12">
+<div class="navbar navbar-inverse navbar-fixed-top left">
+  <div class="navbar-inner">
+    <div class="container">
+    <ul class="nav">
+  <li class="active">
+    <a class="brand" href="#"><font size="6"><b>Computer Networks</b></font></a>
+  </li>
+
+
+</ul>
+</div>
+</div>
+</div>
+</div><br />
+
+
+<!-- START BUTTON DESC. -->
+
+
+<ul class="nav">
+	<br/>
+{% set count = 1 %}
+{% for file in files %}
+	
+		<li >
+			<a data-target="#{{ 'myModal'+ str(count) }}" data-toggle="modal"><h2><b><div align="center"><br />Questions for Lab {{count}}</div></b></a></h2>
+		</li>
+	<div class="modal fade" id="{{ 'myModal'+ str(count) }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	        <h4 class="modal-title" id="myModalLabel"><div align="center">{{file}}</div></h4>
+	      </div>
+	      <div class="modal-body">
+	      </div>
+	     <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      </div>
+		  <br />
+		  <script type="text/javascript">//alert("{{file}}");</script>
+	    </div>
+	  </div>
+	</div>
+	{% set count = count + 1 %}
+{%endfor%}
+
+<div class="modal-footer">
+        <button type="button" class="btn btn-primary">Terminal</button>
+        <button type="button" class="btn btn-default"><a href= "StudentHome.html" id="Back">Back</a></button>
+      </div> 
+    </div><!-- /.container -->
+
+<a href="/homepage">HOME</a>
+<script>
+</script>
+
+    
+    <script src="/static/bootstrap/js/jquery.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+   
+  </body>
+</html>

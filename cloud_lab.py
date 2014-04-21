@@ -126,6 +126,7 @@ def homepage():
 		return render_template('not_auth.html')
 
 	if session.get('teacher', None):
+		#TODO :: have to add "welcome to subject xxx" for teacher
 		return redirect(url_for('manage'))
 
 	db_con = get_db() 
@@ -144,13 +145,13 @@ def logout():
 
 @app.route("/labs/<lab_code>")
 def subject(lab_code):
-	#should add one more check to see if the student actually is a part of this lab
+	#TODO :: should add one more check to see if the student actually is a part of this lab
 	if not session.get('userid', None):
 		return render_template('not_auth.html')
 
 	import glob
 	files = map( lambda x: x.split('/')[-1], glob.glob("labs/"+lab_code+"/*"))
-	return render_template('subject.html', subject=lab_code, files=files)
+	return render_template('subject.html', subject=lab_code, files=files, str=str)
 
 
 
@@ -165,6 +166,7 @@ def upload_file():
 		print "res : ",res
 		f = request.files['prog']
 		f.save('labs/'+res+'/'+secure_filename(f.filename))
+		#add flash message on successful upload
 		return redirect(url_for("homepage"))
 
 
